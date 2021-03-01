@@ -1,2 +1,8 @@
 *.class
 *.log
+target/*
+project/target/*
+project/project/*
+.bsp/*
+.dotty-ide-artifact
+.dotty-ide.json
