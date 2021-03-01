@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples
+package io.github.antivanov.scala3.examples.new_types
 
 case class StringWrapper(value: String)
 case class IntWrapper(value: Int)
@@ -13,7 +13,7 @@ def wrapperOf[X](x: X): Wrapper[X] = x match
   case x: String => StringWrapper(x)
   case x: Int => IntWrapper(x)
 
-@main def doMain: Unit =
+@main def matchTypesMain: Unit =
   val x: Wrapper[String] = wrapperOf("abc")
   val y: Wrapper[Int] = wrapperOf(2)
 

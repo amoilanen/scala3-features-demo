@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples
+package io.github.antivanov.scala3.examples.new_types
 
 import scala.util.Try
 import scala.concurrent.{Future, Await}
@@ -34,7 +34,7 @@ def runTestCase[A](resultsSoFar: TestResults, testCase: () => Future[A] | Try[A]
       Future.successful(resultsSoFar.copy(failed = resultsSoFar.failed + 1))
 
 
-@main def doMain: Unit =
+@main def unionTypesMain: Unit =
   val testCases: List[() => Future[Unit] | Try[Unit] | Unit] = List(
     () => Future.successful(()),
     () => Future.failed[Unit](new RuntimeException("unexpected failure")),

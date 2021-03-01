@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples
+package io.github.antivanov.scala3.examples.new_types
 
 trait HealthStatus:
   def isUp: Boolean =
@@ -17,7 +17,7 @@ trait WeatherService:
 def getWeatherAtLocation(location: Location, registeredServices: List[WeatherService & InfrastructureService]): Option[Weather] =
   registeredServices.find(_.health.isUp).map(_.weatherAt(location))
 
-@main def doMain: Unit =
+@main def intersectionTypesMain: Unit =
   val location = new Location {}
   val defaultService = new WeatherService with InfrastructureService:
     def weatherAt(location: Location): Weather =
