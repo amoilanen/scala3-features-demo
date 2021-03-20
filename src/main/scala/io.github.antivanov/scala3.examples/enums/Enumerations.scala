@@ -1,5 +1,7 @@
 package io.github.antivanov.scala3.examples.enums
 
+import scala.annotation.tailrec
+
 extension (x: Int)
    def mod(y: Int) =
       ((x % y) + y) % y
@@ -25,6 +27,7 @@ case class Forward(distance: Int) extends Move
 object TurnLeft extends Move
 object TurnRight extends Move
 
+@tailrec
 def followRoute(from: Position, route: List[Move]): Position =
   route match
     case nextMove::remainingRoute =>
