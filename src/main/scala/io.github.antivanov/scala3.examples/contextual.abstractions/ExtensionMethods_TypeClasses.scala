@@ -21,21 +21,21 @@ object ShowInstances:
       s"cat named ${cat.name}"
     extension (cat: Cat)(using s: Show[Cat])
       def show: String =
-        summon[Show[Cat]].show(cat)
+        s.show(cat)
 
   given listShow[T](using s: Show[T]): Show[List[T]] with
     def show(value: List[T]): String =
       value.map(s.show(_)).mkString(",")
     extension (value: List[T])(using s: Show[List[T]])
       def show: String =
-        summon[Show[List[T]]].show(value)
+        s.show(value)
 
   given optionShow[T](using s: Show[T]): Show[Option[T]] with
     def show(value: Option[T]): String =
       value.fold("")(s.show(_))
     extension (value: Option[T])(using s: Show[Option[T]])
       def show: String =
-        summon[Show[Option[T]]].show(value)
+        s.show(value)
 
 @main def KeywordGiven: Unit =
   import ShowInstances.given
