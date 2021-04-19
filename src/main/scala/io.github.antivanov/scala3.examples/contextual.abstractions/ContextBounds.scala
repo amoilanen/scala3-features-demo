@@ -23,7 +23,8 @@ def isSortedWithDirection[T](list: List[T], direction: (T, T) => Boolean): Boole
 // def isSorted[T](list: List[T])(using ord: Ord[T]): Boolean =
 def isSorted[T: Ord](list: List[T]): Boolean =
   val ord = summon[Ord[T]]
-  isSortedWithDirection(list, ord.>=) || isSortedWithDirection(list, ord.<=)
+  import ord._
+  isSortedWithDirection(list, >=) || isSortedWithDirection(list, <=)
 
 @main def contextBounds: Unit =
   List(

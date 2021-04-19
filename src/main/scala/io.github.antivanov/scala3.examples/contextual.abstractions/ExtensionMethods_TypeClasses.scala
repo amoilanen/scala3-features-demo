@@ -19,26 +19,22 @@ object ShowInstances:
   given catShow: Show[Cat] with
     def show(cat: Cat): String =
       s"cat named ${cat.name}"
-    extension (cat: Cat)(using s: Show[Cat])
-      def show: String =
-        s.show(cat)
 
   given listShow[T](using s: Show[T]): Show[List[T]] with
     def show(value: List[T]): String =
       value.map(s.show(_)).mkString(",")
-    extension (value: List[T])(using s: Show[List[T]])
-      def show: String =
-        s.show(value)
 
   given optionShow[T](using s: Show[T]): Show[Option[T]] with
     def show(value: Option[T]): String =
       value.fold("")(s.show(_))
-    extension (value: Option[T])(using s: Show[Option[T]])
-      def show: String =
-        s.show(value)
+
+  extension [T](value: T)(using s: Show[T])
+    def show: String =
+      s.show(value)
 
 @main def KeywordGiven: Unit =
   import ShowInstances.given
+  import ShowInstances._
 
   val tom = Cat("Tom")
   val felix = Cat("Felix")

@@ -10,9 +10,8 @@ import scala.language.postfixOps
 // In Scala 3 implicit conversions have to be enabled explicitly and are not enabled by default
 import scala.language.implicitConversions
 
-object JavaFutureConversions {
-
-  // Implicit conversion in Scala 3, rare case when we actually need to transform one type to another
+// Implicit conversion in Scala 3, rare case when we actually need to transform one type to another
+object JavaFutureConversions:
   given javaFutureToScalaFuture[T](using executionContext: ExecutionContext): Conversion[CompletableFuture[T], Future[T]] with
     def apply(future: CompletableFuture[T]): Future[T] =
       val promise = Promise[T]()
@@ -23,13 +22,10 @@ object JavaFutureConversions {
           promise.success(value)
       )
       promise.future
-}
 
-object JavaExecutorServiceConversions {
-
+object JavaExecutorServiceConversions:
   given executionContextFromExecutorService(using executorService: ExecutorService): ExecutionContext =
     ExecutionContext.fromExecutorService(executorService)
-}
 
 def javaFutureSucceedingWithValue[T](value: T)(using executorService: ExecutorService): CompletableFuture[T] =
   CompletableFuture.supplyAsync(() => value, executorService)
@@ -46,7 +42,6 @@ def javaFutureFailingWithError[T](error: Throwable)(using executorService: Execu
   val timeout = 500.milliseconds
   val numberOfThreads = 10
   given executorService: ExecutorService = Executors.newFixedThreadPool(numberOfThreads)
-  given executionContext: ExecutionContext = ExecutionContext.fromExecutorService(executorService)
 
   val expectedResult = javaFutureSucceedingWithValue("abcde")
     .map(_.length)
