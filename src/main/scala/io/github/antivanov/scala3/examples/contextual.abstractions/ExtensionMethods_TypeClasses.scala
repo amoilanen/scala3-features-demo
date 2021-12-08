@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.contextual_abstractions
+package io.github.antivanov.scala3.examples.`contextual.abstractions`
 
 // Type class definition: a trait in Scala 3 as in Scala 2
 trait Show[T]:

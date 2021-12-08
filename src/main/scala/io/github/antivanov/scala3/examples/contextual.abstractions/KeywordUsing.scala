@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.contextual_abstractions
+package io.github.antivanov.scala3.examples.`contextual.abstractions`
 
 import scala.math._
 

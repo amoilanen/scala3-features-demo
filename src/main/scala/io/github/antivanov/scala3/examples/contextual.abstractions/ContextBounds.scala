@@ -1,3 +1,5 @@
+package io.github.antivanov.scala3.examples.`contextual.abstractions`
+
 trait Ord[T]:
   def >=(x: T, y: T): Boolean =
     compare(x, y) >= 0

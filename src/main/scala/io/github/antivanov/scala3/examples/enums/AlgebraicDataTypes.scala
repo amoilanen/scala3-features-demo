@@ -1,3 +1,5 @@
+package io.github.antivanov.scala3.examples.enums
+
 import scala.math._
 
 /*

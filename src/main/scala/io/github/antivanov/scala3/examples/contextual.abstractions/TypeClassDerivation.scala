@@ -1,3 +1,5 @@
+package io.github.antivanov.scala3.examples.`contextual.abstractions`
+
 // Adapted from the example with Eq from https://dotty.epfl.ch/docs/reference/contextual/derivation.html
 
 import scala.deriving.Mirror

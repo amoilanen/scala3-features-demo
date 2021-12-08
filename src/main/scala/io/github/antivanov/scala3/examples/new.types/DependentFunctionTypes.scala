@@ -1,17 +1,21 @@
-package io.github.antivanov.scala3.examples.new_types
+package io.github.antivanov.scala3.examples.`new.types`
 
 trait Generator {
   type ValueType
   def next(): ValueType
 }
 
+val stringGenerator = new Generator:
+  type ValueType = String
+  def next() = "value1"
+
+val intGenerator = new Generator:
+  type ValueType = Int
+  def next() = 2
+
 val generators: Map[String, Generator] = Map(
-  "field1" -> new Generator:
-    type ValueType = String
-    def next() = "value1",
-  "field2" -> new Generator:
-    type ValueType = Int
-    def next() = 2
+  "field1" -> stringGenerator,
+  "field2" -> intGenerator
 )
 
 def repeatGenerator[T](times: Int)(generator: Generator): List[Generator#ValueType] =

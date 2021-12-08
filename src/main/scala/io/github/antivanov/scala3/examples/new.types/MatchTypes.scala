@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.new_types
+package io.github.antivanov.scala3.examples.`new.types`
 
 case class StringWrapper(value: String)
 case class IntWrapper(value: Int)

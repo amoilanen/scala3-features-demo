@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.new_types
+package io.github.antivanov.scala3.examples.`new.types`
 
 import scala.util.Try
 import scala.concurrent.{Future, Await}

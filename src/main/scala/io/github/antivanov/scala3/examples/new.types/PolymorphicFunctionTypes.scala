@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.new_types
+package io.github.antivanov.scala3.examples.`new.types`
 
 trait Node[A]
 case class Leaf[A](value: A) extends Node[A]
