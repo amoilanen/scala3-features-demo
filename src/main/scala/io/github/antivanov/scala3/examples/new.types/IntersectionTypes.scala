@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.`new.types`
+package io.github.antivanov.scala3.examples.`new`.types
 
 trait HealthStatus:
   def isUp: Boolean =

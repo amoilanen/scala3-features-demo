@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.`new.types`
+package io.github.antivanov.scala3.examples.`new`.types
 
 trait Node[A]
 case class Leaf[A](value: A) extends Node[A]
@@ -19,7 +19,7 @@ def reduce[A](f: (A, A) => A)(node: Node[A]): A =
     case Tree(left, right) => f(reduce(f)(left), reduce(f)(right))
 */
 
-@main def polymorphicFunctionTypes: Unit =
+@main def polymorphicFunctionTypesMain: Unit =
   val treeSummer = reduce[Int](_ + _)
   val tree = Tree(
     Tree(

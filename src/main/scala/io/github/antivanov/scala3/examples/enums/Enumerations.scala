@@ -42,7 +42,7 @@ def followRoute(from: Position, route: List[Move]): Position =
     case _ =>
       from
 
-@main def enumerations: Unit =
+@main def enumerationsMain: Unit =
   val route = List(
     Forward(2),
     TurnLeft,

@@ -6,3 +6,4 @@ project/project/*
 .bsp/*
 .dotty-ide-artifact
 .dotty-ide.json
+.idea/

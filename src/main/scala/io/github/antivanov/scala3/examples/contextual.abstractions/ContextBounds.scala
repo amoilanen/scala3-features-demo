@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.`contextual.abstractions`
+package io.github.antivanov.scala3.examples.contextual.abstractions
 
 trait Ord[T]:
   def >=(x: T, y: T): Boolean =
@@ -28,7 +28,7 @@ def isSorted[T: Ord](list: List[T]): Boolean =
   import ord._
   isSortedWithDirection(list, >=) || isSortedWithDirection(list, <=)
 
-@main def contextBounds: Unit =
+@main def contextBoundsMain: Unit =
   List(
     List(1, 2, 3, 4, 5),
     List(3, 2, 1),

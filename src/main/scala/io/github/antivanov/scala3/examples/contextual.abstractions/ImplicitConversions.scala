@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.`contextual.abstractions`
+package io.github.antivanov.scala3.examples.contextual.abstractions
 
 import java.util.concurrent.{ CompletableFuture, ExecutorService, Executors }
 import java.util.function.{ Supplier, Consumer }
@@ -35,7 +35,7 @@ def javaFutureFailingWithError[T](error: Throwable)(using executorService: Execu
   future.completeExceptionally(error)
   future
 
-@main def implicitConversions: Unit =
+@main def implicitConversionsMain: Unit =
   import JavaFutureConversions.given
   import JavaExecutorServiceConversions.given
 

@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.`contextual.abstractions`
+package io.github.antivanov.scala3.examples.contextual.abstractions
 
 extension [T](x: List[T])
 
@@ -29,7 +29,7 @@ extension [T](x: List[T])
   def caddrOption: Option[T] =
     x.cdr.cdr.carOption
 
-@main def extensionMethods: Unit =
+@main def extensionMethodsMain: Unit =
   val l = List(1, 2, 3, 4, 5, 6)
   println(l.car)
   println(l.cdr)

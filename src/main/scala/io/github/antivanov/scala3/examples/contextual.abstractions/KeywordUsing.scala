@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.`contextual.abstractions`
+package io.github.antivanov.scala3.examples.contextual.abstractions
 
 import scala.math._
 
@@ -44,7 +44,7 @@ given registeredAlgorithms(using linearAlgorthm: RootFindingAlgorithm[LinearPoly
 def findRoots[T <: Polynomial](polynomial: T)(using algorithm: RootFindingAlgorithm[T]): List[Double] =
   algorithm.findRoots(polynomial)
 
-@main def keywordUsing: Unit =
+@main def keywordUsingMain: Unit =
   val quadraticOneRoot = QuadraticPolynomial(1, -2, 1)
   val quadraticTwoRoots = QuadraticPolynomial(3, -15, 18)
   val quadraticNoRoots = QuadraticPolynomial(-1, -1, -1)

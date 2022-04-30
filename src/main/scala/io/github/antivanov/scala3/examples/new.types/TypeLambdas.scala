@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.`new.types`
+package io.github.antivanov.scala3.examples.`new`.types
 
 // Relation with the parameterized type definitions: parameterized type definition is a shorthand for a type lambda
 type Function1 = [A, B] =>> A => B

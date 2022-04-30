@@ -1,42 +1,43 @@
-package io.github.antivanov.scala3.examples.`contextual.abstractions`
+package io.github.antivanov.scala3.examples.contextual.abstractions
 
 // Adapted from the example with Eq from https://dotty.epfl.ch/docs/reference/contextual/derivation.html
 
 import scala.deriving.Mirror
 import scala.compiletime.{erasedValue, summonInline}
 
-trait Show[T]:
-  def show(value: T): String
+object TypeClassDerivation:
 
-given Show[Int] with
-  def show(value: Int): String =
-    value.toString
+  trait Show[T]:
+    def show(value: T): String
 
-object Show:
-  def apply[T](using s: Show[T]): Show[T] =
-    s
+  given Show[Int] with
+    def show(value: Int): String =
+      value.toString
 
-  // Works similar to toString but using square brackets instead of the round ones
-  inline given derived[T](using m: Mirror.Of[T]): Show[T] =
-    lazy val elemInstances = summonTypeclassInstances[m.MirroredElemTypes]
-    inline m match
-       case s: Mirror.SumOf[T]     => showSum(s, elemInstances)
-       case p: Mirror.ProductOf[T] => showProduct(p, elemInstances)
+  object Show:
+    def apply[T](using s: Show[T]): Show[T] =
+      s
 
-  private def asList[T](value: T): List[Any] =
-    value.asInstanceOf[Product].productIterator.toList
+    // Works similar to toString but using square brackets instead of the round ones
+    inline given derived[T](using m: Mirror.Of[T]): Show[T] =
+      lazy val elemInstances = summonTypeclassInstances[m.MirroredElemTypes]
+      inline m match
+         case s: Mirror.SumOf[T]     => showSum(s, elemInstances)
+         case p: Mirror.ProductOf[T] => showProduct(p, elemInstances)
 
-  inline def showSum[T](sumOf: Mirror.SumOf[T], elemTypeclasses: => List[Show[_]]): Show[T] =
-    new Show[T]:
-      def show(value: T): String =
+    private def asList[T](value: T): List[Any] =
+      value.asInstanceOf[Product].productIterator.toList
+
+    inline def showSum[T](sumOf: Mirror.SumOf[T], elemTypeclasses: => List[Show[_]]): Show[T] =
+      (value: T) =>
         val typeName = value.getClass.getSimpleName
         val valueTypeOrdinal = sumOf.ordinal(value)
         val valueTypeclass: Show[T] = elemTypeclasses(valueTypeOrdinal).asInstanceOf[Show[T]]
-        valueTypeclass.show(value)
+          valueTypeclass
+        .show(value)
 
-  inline def showProduct[T](productOf: Mirror.ProductOf[T], elemTypeclasses: => List[Show[_]]): Show[T] =
-    new Show[T]:
-      def show(value: T): String =
+    inline def showProduct[T](productOf: Mirror.ProductOf[T], elemTypeclasses: => List[Show[_]]): Show[T] =
+      (value: T) =>
         val valueClassName = value.getClass.getSimpleName
         val shownFields = asList(value).zip(elemTypeclasses).map(
           (field, showForField) =>
@@ -44,16 +45,17 @@ object Show:
         ).mkString(",")
         s"$valueClassName[$shownFields]"
 
-  inline def summonTypeclassInstances[T <: Tuple]: List[Show[_]] =
-    inline erasedValue[T] match
-       case _: EmptyTuple => Nil
-       case _: (t *: ts) => summonInline[Show[t]] :: summonTypeclassInstances[ts]
+    inline def summonTypeclassInstances[T <: Tuple]: List[Show[_]] =
+      inline erasedValue[T] match
+         case _: EmptyTuple => Nil
+         case _: (t *: ts) => summonInline[Show[t]] :: summonTypeclassInstances[ts]
 
-enum Tree[T] derives Show:
-   case Branch(left: Tree[T], right: Tree[T])
-   case Leaf(elem: T)
+  enum Tree[T] derives Show:
+     case Branch(left: Tree[T], right: Tree[T])
+     case Leaf(elem: T)
 
-@main def TypeClassDerivation: Unit =
-  import Tree._
+@main def typeClassDerivationMain: Unit =
+  import TypeClassDerivation._
+  import TypeClassDerivation.Tree._
   val tree: Tree[Int] = Branch(Branch(Leaf(1), Leaf(2)), Leaf(3))
   println(Show[Tree[Int]].show(tree))

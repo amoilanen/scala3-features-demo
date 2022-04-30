@@ -18,7 +18,7 @@ def depth[T](tree: Tree[T]): Int =
     case Leaf(_) => 1
     case Node(left, right) => 1 + max(depth(left), depth(right))
 
-@main def alegbraicDataTypes: Unit =
+@main def alegbraicDataTypesMain: Unit =
   val tree = Node(
     Node(
       Leaf(1),

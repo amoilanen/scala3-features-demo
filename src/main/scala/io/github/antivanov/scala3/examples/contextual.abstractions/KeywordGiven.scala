@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.`contextual.abstractions`
+package io.github.antivanov.scala3.examples.contextual.abstractions
 
 trait Show[T]:
   def show(value: T): String
@@ -13,7 +13,7 @@ given catShow: Show[Cat] with
   def show(cat: Cat): String =
     s"cat named ${cat.name}"
 
-@main def KeywordGiven: Unit =
+@main def keywordGivenMain: Unit =
   val tom = Cat("Tom")
   val catShow = summon[Show[Cat]]
   println(catShow.show(tom))
