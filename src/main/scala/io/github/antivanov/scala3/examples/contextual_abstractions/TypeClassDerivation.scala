@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.contextual.abstractions
+package io.github.antivanov.scala3.examples.contextual_abstractions
 
 // Adapted from the example with Eq from https://dotty.epfl.ch/docs/reference/contextual/derivation.html
 

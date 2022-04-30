@@ -1,4 +1,4 @@
-package io.github.antivanov.scala3.examples.contextual.abstractions
+package io.github.antivanov.scala3.examples.contextual_abstractions
 
 trait Ord[T]:
   def >=(x: T, y: T): Boolean =
