@@ -5,6 +5,5 @@ lazy val root = project
   .settings(
     name := "scala3-features-demo",
     version := "0.1.0-SNAPSHOT",
-
     scalaVersion := scala3Version
   )
