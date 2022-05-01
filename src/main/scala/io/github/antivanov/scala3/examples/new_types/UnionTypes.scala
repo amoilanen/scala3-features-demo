@@ -25,13 +25,13 @@ def runTestCase[A](resultsSoFar: TestResults, testCase: () => Future[A] | Try[A]
              resultsSoFar.appendFailure
          })
       case result: Try[_] =>
-        result.fold(
-          _ => Future.successful(resultsSoFar.appendFailure),
-          _ => Future.successful(resultsSoFar.appendSuccess)
-        )
+        Future.successful(result.fold(
+          _ => resultsSoFar.appendFailure,
+          _ => resultsSoFar.appendSuccess
+        ))
   catch
     case _ =>
-      Future.successful(resultsSoFar.copy(failed = resultsSoFar.failed + 1))
+      Future.successful(resultsSoFar.appendFailure)
 
 
 @main def unionTypesMain: Unit =
