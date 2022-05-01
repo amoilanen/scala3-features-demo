@@ -5,7 +5,7 @@ case class Leaf[A](value: A) extends Node[A]
 case class Tree[A](left: Node[A], right: Node[A]) extends Node[A]
 
 // "reduce" has a polymorphic function type
-val reduce: [A] => ((A, A) => A) => (Node[A]) => A =
+val reduce: [A] => ((A, A) => A) => Node[A] => A =
   [A] => (f: (A, A) => A) => (node: Node[A]) =>
     node match
       case Leaf(x) => x

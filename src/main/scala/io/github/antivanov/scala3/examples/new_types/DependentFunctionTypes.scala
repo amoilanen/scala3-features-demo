@@ -18,7 +18,7 @@ val generators: Map[String, Generator] = Map(
   "field2" -> intGenerator
 )
 
-def repeatGenerator[T](times: Int)(generator: Generator): List[Generator#ValueType] =
+def repeatGenerator(times: Int)(generator: Generator): List[Generator#ValueType] =
   (1 to times).toList.map(_ => generator.next())
 
 @main def dependentFunctionTypesMain: Unit =
@@ -26,6 +26,5 @@ def repeatGenerator[T](times: Int)(generator: Generator): List[Generator#ValueTy
   // Specifying the function type of listGenerator is only possible in Scala 3
   val listGenerator: Generator => List[Generator#ValueType] = repeatGenerator(5)
   val values = listGenerator(generator)
-
   println(values)
 
