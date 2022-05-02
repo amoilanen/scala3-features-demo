@@ -22,25 +22,25 @@ enum Direction(val xDirection: Int, val yDirection: Int):
 
 case class Position(x: Int, y: Int, dir: Direction)
 
-sealed trait Move
-case class Forward(distance: Int) extends Move
-object TurnLeft extends Move
-object TurnRight extends Move
+sealed trait Move:
+  def update(p: Position): Position
 
-@tailrec
+case class Forward(distance: Int) extends Move:
+  def update(p: Position): Position =
+    Position(p.x + distance * p.dir.xDirection, p.y + distance * p.dir.yDirection, p.dir)
+
+object TurnLeft extends Move:
+  def update(p: Position): Position =
+    p.copy(dir = p.dir.turnLeft)
+
+object TurnRight extends Move:
+  def update(p: Position): Position =
+    p.copy(dir = p.dir.turnRight)
+
 def followRoute(from: Position, route: List[Move]): Position =
-  route match
-    case nextMove::remainingRoute =>
-      val updatedPosition = nextMove match
-        case Forward(distance) =>
-          Position(from.x + distance * from.dir.xDirection, from.y + distance * from.dir.yDirection, from.dir)
-        case TurnLeft =>
-          from.copy(dir = from.dir.turnLeft)
-        case TurnRight =>
-          from.copy(dir = from.dir.turnRight)
-      followRoute(updatedPosition, remainingRoute)
-    case _ =>
-      from
+  route.foldLeft(from)((p, move) =>
+    move.update(p)
+  )
 
 @main def enumerationsMain: Unit =
   val route = List(
