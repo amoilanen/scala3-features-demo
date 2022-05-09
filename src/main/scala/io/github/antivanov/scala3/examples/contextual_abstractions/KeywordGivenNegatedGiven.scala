@@ -1,12 +1,10 @@
 package io.github.antivanov.scala3.examples.contextual_abstractions
 
-import io.github.antivanov.scala3.examples.contextual_abstractions.KeywordGivenNegatedGivenMain.toResult
-
 import scala.util.{NotGiven, Try}
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.concurrent.duration.*
 
-object KeywordGivenNegatedGivenMain:
+object KeywordGivenNegatedGiven:
 
   class ToEitherError(cause: Throwable) extends Exception(cause)
 
@@ -35,7 +33,7 @@ object KeywordGivenNegatedGivenMain:
 
 object KeywordGivenNegatedGivenExtensions:
 
-  import KeywordGivenNegatedGivenMain._
+  import KeywordGivenNegatedGiven._
 
   extension[A] (f: Future[A])
     def asResult(timeout: Duration)(using ExecutionContext): Result[A] =
@@ -54,7 +52,7 @@ object KeywordGivenNegatedGivenExtensions:
       toResult(v)
 
 @main def keywordGivenNegatedGivenMain: Unit =
-  import KeywordGivenNegatedGivenMain._
+  import KeywordGivenNegatedGiven._
 
   given ec: ExecutionContext = ExecutionContext.Implicits.global
 
