@@ -1,5 +1,7 @@
 package io.github.antivanov.scala3.examples.contextual_abstractions
 
+import io.github.antivanov.scala3.examples.contextual_abstractions.KeywordGivenNegatedGivenMain.toEither
+
 import scala.util.{NotGiven, Try}
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.concurrent.duration.*
@@ -29,6 +31,26 @@ object KeywordGivenNegatedGivenMain:
       case Some(v) => Right(v)
     }
 
+object KeywordGivenNegatedGivenExtensions:
+
+  import KeywordGivenNegatedGivenMain._
+
+  extension[A] (f: Future[A])
+    def asEither(timeout: Duration)(using ExecutionContext): Either[Throwable, A] =
+      toEither(f, timeout)
+
+  extension[A] (v: => A)(using NotGiven[KnownMonad[A]])
+    def asEither: Either[Throwable, A] =
+      toEither(v)
+
+  extension[A, B] (v: Either[A, B])
+    def asEither: Either[Throwable, B] =
+      toEither(v)
+
+  extension[A] (v: Option[A])
+    def asEither: Either[Throwable, A] =
+      toEither(v)
+
 @main def keywordGivenNegatedGivenMain: Unit =
   import KeywordGivenNegatedGivenMain._
 
@@ -47,3 +69,16 @@ object KeywordGivenNegatedGivenMain:
   println(toEither(Left("eitherValueFailure")))
   println(toEither(Some("optionValueSuccess")))
   println(toEither(None))
+
+  import KeywordGivenNegatedGivenExtensions._
+
+  println("plainValueSuccess".asEither)
+  println(throwingFunction("plainValueFailure").asEither)
+  println(Future.successful("futureValueSuccess").asEither(100.millis))
+  println((Future {
+    throwingFunction("futureValueFailure")
+  }).asEither(100.millis))
+  println(Right("eitherValueSuccess").asEither)
+  println(Left("eitherValueFailure").asEither)
+  println(Some("optionValueSuccess").asEither)
+  println(None.asEither)
