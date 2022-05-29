@@ -75,9 +75,9 @@ object KeywordGivenNegatedGivenExtensions:
   println("plainValueSuccess".asResult)
   println(throwingFunction("plainValueFailure").asResult)
   println(Future.successful("futureValueSuccess").asResult(100.millis))
-  println((Future {
+  println(Future {
     throwingFunction("futureValueFailure")
-  }).asResult(100.millis))
+  }.asResult(100.millis))
   println(Right("eitherValueSuccess").asResult)
   println(Left("eitherValueFailure").asResult)
   println(Some("optionValueSuccess").asResult)
