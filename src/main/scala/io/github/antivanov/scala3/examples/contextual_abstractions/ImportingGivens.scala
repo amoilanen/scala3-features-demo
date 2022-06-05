@@ -12,13 +12,13 @@ object ImportingGivens:
       def show(cat: Cat): String =
         s"cat named ${cat.name}"
 
-    given listShow[T](using s: Show[T]): Show[List[T]] with
+    given listShow[T: Show]: Show[List[T]] with
       def show(values: List[T]): String =
-        values.map(s.show(_)).mkString(",")
+        values.map(summon[Show[T]].show(_)).mkString(",")
 
-    extension [T](value: T)(using s: Show[T])
+    extension [T: Show](value: T)
       def show: String =
-        s.show(value)
+        summon[Show[T]].show(value)
 
 @main def importingGivensMain: Unit =
   import ImportingGivens._
