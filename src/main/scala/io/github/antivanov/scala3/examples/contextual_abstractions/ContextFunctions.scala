@@ -21,11 +21,11 @@ object ContextFunctions:
   trait Parser[T]:
     def parse(response: Object): T
 
-  trait SqlStatement[T]:
+  trait SqlStatement:
     def renderAsSql: String
 
   class Connection:
-    def execute[T](statement: SqlStatement[T]): Parser[T] ?=> IO[T] =
+    def execute[T](statement: SqlStatement): Parser[T] ?=> IO[T] =
       // Not a real implementation, just a stub
       Future { summon[Parser[T]].parse(null) }
 
@@ -34,7 +34,7 @@ object ContextFunctions:
   case class User(userId: UserId, attributes: UserAttributes)
 
   object User {
-    case class InsertUserStatement(userAttributes: UserAttributes) extends SqlStatement[UserId]:
+    case class InsertUserStatement(userAttributes: UserAttributes) extends SqlStatement:
       // Not a real implementation, just a stub
       override def renderAsSql: String = "???"
     // Not a real implementation, just a stub
