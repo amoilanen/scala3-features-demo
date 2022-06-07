@@ -16,7 +16,7 @@ object JavaFutureConversions:
     def apply(future: CompletableFuture[T]): Future[T] =
       val promise = Promise[T]()
       future.whenComplete( (value, error) =>
-        if (error != null) then
+        if error != null then
           promise.failure(error)
         else
           promise.success(value)
