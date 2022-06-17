@@ -28,15 +28,14 @@ object TypeClassDerivation:
     private def asList[T](value: T): List[Any] =
       value.asInstanceOf[Product].productIterator.toList
 
-    inline def showSum[T](sumOf: Mirror.SumOf[T], elemTypeclasses: => List[Show[_]]): Show[T] =
+    def showSum[T](sumOf: Mirror.SumOf[T], elemTypeclasses: => List[Show[_]]): Show[T] =
       (value: T) =>
-        val typeName = value.getClass.getSimpleName
         val valueTypeOrdinal = sumOf.ordinal(value)
         val valueTypeclass: Show[T] = elemTypeclasses(valueTypeOrdinal).asInstanceOf[Show[T]]
           valueTypeclass
         .show(value)
 
-    inline def showProduct[T](productOf: Mirror.ProductOf[T], elemTypeclasses: => List[Show[_]]): Show[T] =
+    def showProduct[T](productOf: Mirror.ProductOf[T], elemTypeclasses: => List[Show[_]]): Show[T] =
       (value: T) =>
         val valueClassName = value.getClass.getSimpleName
         val shownFields = asList(value).zip(elemTypeclasses).map(

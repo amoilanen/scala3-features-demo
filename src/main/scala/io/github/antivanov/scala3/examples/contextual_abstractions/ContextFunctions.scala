@@ -60,4 +60,3 @@ object ContextFunctions:
   val userId = Await.result(userInsert, 100.millis)
 
   print(userId)
-
