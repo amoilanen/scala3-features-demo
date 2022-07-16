@@ -19,11 +19,18 @@ object ComplexNumberSyntaxMacros:
   private def asComplexNumber(z: Expr[Double])(using Quotes): Expr[ComplexNumber] =
     import quotes.reflect.report
     z match
+      case '{ ($x: Int) + i * ($y: Int) } =>
+        toComplexNumber[Int](x, y)
+      case '{ ($x: Float) + i * ($y: Float) } =>
+        toComplexNumber[Float](x, y)
       case '{ ($x: Double) + i * ($y: Double) } =>
-        val number = ComplexNumberRectangularForm(x.valueOrError, y.valueOrError)
-        Expr(number)
+        toComplexNumber[Double](x, y)
       case _ =>
-        report.error(s"Invalid complex number  ${z.show}");
+        report.error(s"Invalid complex number definition: ${z.show}");
         '{???}
+
+  private def toComplexNumber[T](x: Expr[T], y: Expr[T])(using n: Numeric[T])(using Quotes, FromExpr[T]): Expr[ComplexNumber] =
+    val number = ComplexNumberRectangularForm(n.toDouble(x.valueOrAbort), n.toDouble(y.valueOrAbort))
+    Expr(number)
 
 end ComplexNumberSyntaxMacros

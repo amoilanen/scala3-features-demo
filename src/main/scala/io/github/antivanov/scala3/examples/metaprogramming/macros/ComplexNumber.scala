@@ -8,7 +8,7 @@ trait ComplexNumber:
 
   override def toString: String =
     val ComplexNumberRectangularForm(x1, y1) = this.toRectangular
-    s"$x1 + i$y1"
+    s"$x1 + $y1 * i"
 
   @targetName("add")
   def +(z: ComplexNumber): ComplexNumber =
