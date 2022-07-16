@@ -49,7 +49,7 @@ object ContextFunctions:
       val connection = summon[Connection]
       connection.execute(InsertUserStatement(user))
 
-@main def contextFunctions: Unit =
+@main def contextFunctionsMain: Unit =
   import ContextFunctions._
   import User.userIdParser
   given connection: Connection = new Connection
