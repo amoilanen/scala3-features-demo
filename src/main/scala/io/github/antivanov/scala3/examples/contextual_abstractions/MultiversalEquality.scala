@@ -40,8 +40,7 @@ def multiversalEqualityMain: Unit =
   // Not allowed to compare maps which have incomparable value types: String and Int
   // println(m1 == m2)
 
-  import ClassHierarchyComparisonExample._
-  import ClassHierarchyComparisonExample.given
+  import ClassHierarchyComparisonExample.{GrannySmithApple, IdaRedApple, NavelOrange, Clementine}
   val apple1 = GrannySmithApple()
   val apple2 = IdaRedApple()
   val orange1 = NavelOrange()

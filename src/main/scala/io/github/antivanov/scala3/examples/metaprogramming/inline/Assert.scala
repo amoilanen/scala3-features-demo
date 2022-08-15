@@ -1,6 +1,6 @@
 package io.github.antivanov.scala3.examples.metaprogramming.inline
 
-object Assert
+object Assert:
   case class AssertionFailedException[T](expected: T, actual: T, message: String)
     extends RuntimeException(s"$message, expected $expected but was $actual")
 
