@@ -25,20 +25,19 @@ object TypeClassDerivation:
          case s: Mirror.SumOf[T]     => showSum(s, elemInstances)
          case p: Mirror.ProductOf[T] => showProduct(p, elemInstances)
 
-    private def asList[T](value: T): List[Any] =
+    private def asListFromProduct[T](value: T): List[Any] =
       value.asInstanceOf[Product].productIterator.toList
 
     def showSum[T](sumOf: Mirror.SumOf[T], elemTypeclasses: => List[Show[_]]): Show[T] =
       (value: T) =>
         val valueTypeOrdinal = sumOf.ordinal(value)
         val valueTypeclass: Show[T] = elemTypeclasses(valueTypeOrdinal).asInstanceOf[Show[T]]
-          valueTypeclass
-        .show(value)
+        valueTypeclass.show(value)
 
     def showProduct[T](productOf: Mirror.ProductOf[T], elemTypeclasses: => List[Show[_]]): Show[T] =
       (value: T) =>
         val valueClassName = value.getClass.getSimpleName
-        val shownFields = asList(value).zip(elemTypeclasses).map(
+        val shownFields = asListFromProduct(value).zip(elemTypeclasses).map(
           (field, showForField) =>
             showForField.asInstanceOf[Show[Any]].show(field)
         ).mkString(",")

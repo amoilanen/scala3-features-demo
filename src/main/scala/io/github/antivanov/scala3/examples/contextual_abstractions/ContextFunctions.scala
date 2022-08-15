@@ -18,8 +18,10 @@ object ContextFunctions:
   type IO[T] = ExecutionContext ?=> Future[T]
   type DatabaseIO[T] = Connection ?=> IO[T]
 
+  case class ParsingError(message: String) extends Exception(message)
+
   trait Parser[T]:
-    def parse(response: Object): T
+    def parse(response: Object): Either[ParsingError, T]
 
   trait SqlStatement:
     def renderAsSql: String
@@ -27,31 +29,28 @@ object ContextFunctions:
   class Connection:
     def execute[T](statement: SqlStatement): Parser[T] ?=> IO[T] =
       // Not a real implementation, just a stub
-      Future { summon[Parser[T]].parse(null) }
+      summon[Parser[T]].parse(null).fold(Future.failed(_), value => Future.successful(value))
 
   case class UserId(value: Int)
   case class UserAttributes(name: String, age: Int)
   case class User(userId: UserId, attributes: UserAttributes)
 
-  object User {
+  object User:
     case class InsertUserStatement(userAttributes: UserAttributes) extends SqlStatement:
       // Not a real implementation, just a stub
       override def renderAsSql: String = "???"
     // Not a real implementation, just a stub
     given userIdParser: Parser[UserId] =
-      _ => UserId(5)
-  }
+      _ => Right(UserId(5))
 
   object UserDao:
-    import User.given
-
-    def insert(user: UserAttributes): DatabaseIO[UserId] =
+    def insert(user: UserAttributes): Parser[UserId] ?=> DatabaseIO[UserId] =
       val connection = summon[Connection]
       connection.execute(InsertUserStatement(user))
 
 @main def contextFunctionsMain: Unit =
-  import ContextFunctions._
-  import User.userIdParser
+  import ContextFunctions.{Connection, DatabaseIO, User, UserDao}
+  import User.given
   given connection: Connection = new Connection
   given executionContext: ExecutionContext = ExecutionContext.global
 
