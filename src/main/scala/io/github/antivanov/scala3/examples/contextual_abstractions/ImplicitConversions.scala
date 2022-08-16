@@ -24,8 +24,13 @@ object JavaFutureConversions:
       promise.future
 
 object JavaExecutorServiceConversions:
-  given executionContextFromExecutorService(using executorService: ExecutorService): ExecutionContext =
-    ExecutionContext.fromExecutorService(executorService)
+  given executionContextFromExecutorService: Conversion[ExecutorService, ExecutionContext] with
+    def apply(executorService: ExecutorService): ExecutionContext =
+      ExecutionContext.fromExecutorService(executorService)
+
+// "approach 2": alternative way to do a conversion, somewhat "Scala 2 - like", this method works only for converting "givens"
+//given executionContextFromExecutorService(using executorService: ExecutorService): ExecutionContext =
+//  ExecutionContext.fromExecutorService(executorService)
 
 def javaFutureSucceedingWithValue[T](value: T)(using executorService: ExecutorService): CompletableFuture[T] =
   CompletableFuture.supplyAsync(() => value, executorService)
@@ -42,6 +47,7 @@ def javaFutureFailingWithError[T](error: Throwable)(using executorService: Execu
   val timeout = 500.milliseconds
   val numberOfThreads = 10
   given executorService: ExecutorService = Executors.newFixedThreadPool(numberOfThreads)
+  given executionContext: ExecutionContext = executorService // would not had been needed with "approach 2"
 
   val expectedResult = javaFutureSucceedingWithValue("abcde")
     .map(_.length)
